@@ -27,9 +27,13 @@ struct FactDetailView: View {
                     .textSelection(.enabled)
                     .padding(.bottom, 32)
 
-                Link("延伸閱讀：維基百科 →", destination: fact.searchURL)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.accent)
+                HStack(spacing: 6) {
+                    Image(systemName: "book.closed")
+                        .foregroundStyle(Theme.accent)
+                    Text(readMoreLink)
+                        .tint(Theme.accent)
+                }
+                .font(.subheadline)
             }
             .frame(maxWidth: 600, alignment: .leading)
             .padding(.horizontal, 24)
@@ -42,6 +46,13 @@ struct FactDetailView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+    }
+
+    /// The "further reading" link, built from a Markdown string because the URL is dynamic.
+    /// The destination is wrapped in `< >` so titles with parentheses don't break the link syntax.
+    private var readMoreLink: AttributedString {
+        let markdown = "[延伸閱讀：維基百科 →](<\(fact.searchURL.absoluteString)>)"
+        return (try? AttributedString(markdown: markdown)) ?? AttributedString("延伸閱讀：維基百科 →")
     }
 }
 
