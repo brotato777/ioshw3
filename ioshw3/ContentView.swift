@@ -1,17 +1,23 @@
 import SwiftUI
-import Playgrounds
 
 struct ContentView: View {
+    @State private var store = TriviaStore()
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationStack {
+            AboutView()
+        }
+        .environment(store)
+        .tint(Theme.accent)
     }
 }
 
-#Preview {
+#Preview("Light Mode") {
     ContentView()
+        .preferredColorScheme(.light)
 }
 
-#Playground {
-    _ = 1 + 2
+#Preview("Dark Mode") {
+    ContentView()
+        .preferredColorScheme(.dark)
 }
